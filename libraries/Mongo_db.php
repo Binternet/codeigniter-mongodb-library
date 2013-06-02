@@ -1104,18 +1104,7 @@ class Mongo_db
 			$result = $this->_dbhandle->{$collection}->update($this->wheres, $this->updates, $options);
 			$this->_clear($collection, 'update');
 			
-			# Upsert
-			if ( $result['updatedExisting'] == FALSE && is_object($result['upserted']) ) {
-				return TRUE;
-			}
-			# Regular Update
-			elseif ($result['updatedExisting'] > 0)
-			{
-				return $result['updatedExisting'];
-			}
-			
-			# Failed
-			return FALSE;
+			return (bool)$result['ok'];
 		}
 		
 		catch (MongoCursorException $exception)
